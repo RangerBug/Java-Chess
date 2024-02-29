@@ -1,0 +1,50 @@
+Set Up the Game Board:
+
+x Design a game board with tiles (8x8 grid).
+x Display pieces on the board.
+x Use images/icons for different chess pieces.
+ Allow customization of board and piece styles.
+
+
+Game Mechanics:
+
+x Create classes and methods for each chess piece (Pawn, Rook, Knight, Bishop, Queen, King).
+x Define legal moves for each piece.
+x Implement turn-based gameplay (i.e., switch between white and black turns).
+x Ensure pieces can be captured and removed from the board.
+ Implement specific chess rules:
+x  Castling
+x  En passant
+x  Pawn promotion
+x  Check and checkmate
+x  Stalemate
+
+
+Game Controls and User Interface:
+
+x Allow players to click and drag (or click and click) to move pieces.
+x Display whose turn it is.
+x Provide a menu or settings for starting a new game or changing options.
+ Display game status (e.g., check, checkmate, stalemate).
+
+
+AI Integration (for playing against the computer):
+
+x Provide options for player vs. player and player vs. AI modes.
+x Develop an AI for chess.
+ Allow multiple difficulty levels for the AI.
+
+
+Game Persistence:
+
+x Provide a button or option to load a game.
+ Save the game state to a file or database.
+ Load a saved game from a file or database.
+
+
+Additional Features (optional):
+ Display captured pieces.
+ Implement timers for each player (optional for blitz/bullet games).
+ Allow online multiplayer mode.
+ Offer tutorials or guides for beginners.
+ Keep track of player statistics and scores.
