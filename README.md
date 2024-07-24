@@ -22,7 +22,7 @@ The game comes with a Human vs Computer mode as well as a Computer vs Computer m
 1. Clone the repository to your local machine.
 2. Open the project in IntelliJ IDEA.
 3. Make sure JavaFX SDK is properly configured in the project settings.
-4. Build and run the project.
+4. Make sure to only open the directory "Chess" in IntelliJ (or prefered editor). Opening the whole repository may create issues.
 
 ## Contributing
 
