@@ -1,9 +1,14 @@
 package com.chess;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,29 +73,45 @@ public class GameEngine {
         GameEngine game = this;
 
         loop = new AnimationTimer() {
+            private boolean aiMovePending = false; // Track if an AI move is pending
+
             public void handle(long now) {
+                boolean isHumanTurn = (whiteToMove && playAsWhite) || (!whiteToMove && !playAsWhite);
 
                 gameEnded = checkForCheckmateOrStalemate();
                 if (gameEnded) {
                     stop();
+                    return;
                 }
 
                 if (humanVsAI) {
-                    if ((whiteToMove && playAsWhite) || (!whiteToMove && !playAsWhite)) {
+                    if (!isHumanTurn && !gameEnded && !aiMovePending) {
+                        aiMovePending = true;
+                        PauseTransition pause = new PauseTransition(Duration.millis(10));
+                        pause.setOnFinished(event -> {
+                            ChessAI agent = new ChessAI(game, gameView);
+                            Move move = agent.calculateAIMove(game.getLegalMoves());
+                            move(move.startR, move.startC, move.endR, move.endC, gameView, false);
+                            aiMovePending = false;
+                        });
+                        pause.play();
+                    } else if (isHumanTurn && !gameEnded) {
                         scene.setOnMouseClicked(event -> handleClick(event, gameView));
-                    } else if (!gameEnded){
-                        ChessAI agent = new ChessAI(game, gameView);
-                        Move move = agent.calculateAIMove(game.getLegalMoves());
-                        move(move.startR, move.startC, move.endR, move.endC, gameView, false);
                     }
                 } else {
                     scene.setOnMouseClicked(null);
                 }
 
-                if (aiVsAi && !gameEnded) {
-                    ChessAI agent = new ChessAI(game, gameView);
-                    Move move = agent.calculateAIMove(game.getLegalMoves());
-                    move(move.startR, move.startC, move.endR, move.endC, gameView, false);
+                if (aiVsAi && !gameEnded && !aiMovePending) {
+                    aiMovePending = true;
+                    PauseTransition pause = new PauseTransition(Duration.millis(10));
+                    pause.setOnFinished(event -> {
+                        ChessAI agent = new ChessAI(game, gameView);
+                        Move move = agent.calculateAIMove(game.getLegalMoves());
+                        move(move.startR, move.startC, move.endR, move.endC, gameView, false);
+                        aiMovePending = false;
+                    });
+                    pause.play();
                 }
 
                 scene.setOnKeyPressed(event -> {
@@ -681,3 +702,4 @@ public class GameEngine {
     }
 
 }
+
