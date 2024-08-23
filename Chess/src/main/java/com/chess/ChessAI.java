@@ -97,6 +97,11 @@ public class ChessAI {
 
     private int scoreBoard() {
         int score = 0;
+        if (game.checkMate) {
+            return Integer.MAX_VALUE;
+        } else if (game.staleMate) {
+            return 0;
+        }
         for (int c = 0; c < 8; c++) {
             for (int r = 0; r < 8; r++) {
                 Piece piece = game.board[r][c];
